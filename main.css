@@ -1,0 +1,741 @@
+/**
+ * @name Cumulus
+ * @author Claude
+ * @version 1.0.0
+ * @description A soft, milky, cloud-kissed theme. Light and sweet.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap');
+
+/* ============================================================
+   ROOT VARIABLES — tweak these to customize the theme
+   ============================================================ */
+:root {
+    /* Fonts */
+    --font-primary: 'DM Sans', sans-serif;
+    --font-display: 'DM Serif Display', serif;
+
+    /* Core palette */
+    --cloud-white:       #f7f5f2;
+    --cloud-white-dark:  #ede9e3;
+    --cloud-white-darker:#e2ddd6;
+    --cloud-milk:        #faf8f5;
+
+    /* Accent — a warm lilac-rose */
+    --accent:            210, 160, 200;   /* rgb */
+    --accent-alt:        160, 110, 155;   /* rgb, darker variant */
+
+    /* Utility */
+    --dm-black:          30,  25,  35;    /* near-black with a warm purple tint */
+    --dm-white:          255, 255, 255;
+
+    /* Background image — a subtle soft cloud texture */
+    --background-image:  url('https://i.imgur.com/SP1WQJi.jpeg');
+    --home-image:        url('https://i.imgur.com/233d55Y.gif');
+    --avatar-size:       32px;
+}
+
+
+/* ============================================================
+   THEME-WIDE DISCORD VAR OVERRIDES
+   ============================================================ */
+:not(div[class*="userProfile"][class*="unThemed"]).theme-dark,
+:not(div[class*="userProfile"]).theme-light,
+div[class*="userProfile"][class*="unThemed"].theme-light {
+    --background-primary:             var(--cloud-white);
+    --background-mobile-primary:      var(--cloud-white);
+    --background-secondary:           var(--cloud-white-dark);
+    --background-mobile-secondary:    var(--cloud-white-dark);
+    --background-secondary-alt:       var(--cloud-white-darker);
+    --background-tertiary:            var(--cloud-white-darker);
+    --background-floating:            rgba(255, 255, 255, 0.85);
+    --background-accent:              var(--cloud-white);
+    --background-message-hover:       rgba(var(--accent), 0.08);
+    --channeltextarea-background:     transparent;
+    --activity-card-background:       rgba(var(--dm-white), 0.6);
+    --deprecated-store-bg:            transparent;
+    --background-modifier-hover:      rgba(var(--accent), 0.1);
+    --background-modifier-active:     rgba(var(--accent), 0.15);
+    --background-modifier-selected:   rgba(var(--accent), 0.2);
+    --elevation-low:                  inset 0 -1px 0 0 rgba(var(--dm-black), 0.06);
+    --channels-default:               rgba(var(--dm-black), 0.45);
+    --header-primary:                 rgba(var(--dm-black), 0.9);
+    --header-secondary:               rgba(var(--dm-black), 0.55);
+    --text-normal:                    rgba(var(--dm-black), 0.7);
+    --text-muted:                     rgba(var(--dm-black), 0.35);
+    --interactive-muted:              rgba(var(--dm-black), 0.2);
+    --interactive-normal:             rgba(var(--dm-black), 0.5);
+    --interactive-hover:              rgba(var(--dm-black), 0.75);
+    --interactive-active:             rgba(var(--dm-black), 0.95);
+    --deprecated-card-bg:             rgba(var(--dm-white), 0.7);
+    --text-link:                      rgba(var(--accent-alt), 1);
+    --focus-primary:                  rgba(var(--accent), 1);
+    --modal-background:               var(--cloud-white);
+    --modal-footer-background:        var(--cloud-white-darker);
+    --deprecated-quickswitcher-input-background: var(--cloud-white);
+}
+
+/* Selection highlight */
+::selection {
+    background-color: rgba(var(--accent), 0.35);
+}
+
+
+/* ============================================================
+   SCROLLBARS
+   ============================================================ */
+::-webkit-scrollbar {
+    width: 12px !important;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 8px !important;
+    border: 3px solid transparent !important;
+    background-color: rgba(var(--accent-alt), 0.45) !important;
+    background-clip: padding-box !important;
+}
+::-webkit-scrollbar-track {
+    visibility: visible !important;
+    border-radius: 8px !important;
+    border: 3px solid transparent !important;
+    background-color: rgba(var(--dm-black), 0.06) !important;
+    background-clip: padding-box !important;
+}
+
+
+/* ============================================================
+   TITLEBAR
+   ============================================================ */
+div[class*="typeWindows-"] {
+    --background-modifier-hover:  rgba(var(--accent), 0.12);
+    --background-modifier-active: rgba(var(--accent), 0.2);
+    height: 26px;
+}
+div[class*="typeWindows-"] > div:first-child {
+    display: none;
+}
+div[class*="typeWindows-"] > div[role="button"] {
+    height: 30px;
+    width: 36px;
+}
+div[class*="typeWindows-"]::after {
+    content: 'Discord';
+    font-family: var(--font-display);
+    font-style: italic;
+    letter-spacing: 0.03em;
+    line-height: 31px;
+    color: rgba(var(--dm-black), 0.35);
+    font-size: 14px;
+    position: absolute;
+    padding: 0 12px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: -1;
+}
+
+
+/* ============================================================
+   GUILDS / SERVER LIST
+   ============================================================ */
+nav[class*="guilds-"] {
+    background: transparent;
+}
+ul[data-list-id='guildsnav'] {
+    --background-secondary: var(--cloud-white-dark);
+    --background-primary:   rgba(var(--dm-white), 0.55);
+    margin-bottom: 70px;
+    background-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(var(--dm-black), 0.07);
+    box-shadow: inset -10px 0 20px -10px rgba(var(--dm-black), 0.05);
+}
+ul[data-list-id='guildsnav'] ::-webkit-scrollbar {
+    display: none;
+}
+ul[data-list-id='guildsnav'] > div[dir] {
+    padding-top: 18px;
+}
+ul[data-list-id='guildsnav'] [class^="pill-"],
+ul[data-list-id='guildsnav'] [class^="pill-"] > div {
+    height: 40px !important;
+}
+ul[data-list-id='guildsnav'] div[style*="height: 56"],
+ul[id^="folder-items-"] {
+    height: auto !important;
+}
+ul[data-list-id='guildsnav'] [class^="pill-"] span {
+    width: 10px;
+    margin-left: -5px;
+    border-radius: 20px;
+}
+[data-list-id='guildsnav'] [class^="pill-"] span[style^="opacity: 1; height: 40"] {
+    background-color: rgba(var(--accent-alt), 1) !important;
+}
+span[class^="expandedFolderBackground-"] {
+    --background-secondary: rgba(var(--accent), 0.12);
+    border-radius: 14px;
+    width: 40px;
+    left: 16px;
+}
+.wrapper-28eC3z,
+[data-list-id='guildsnav'] [data-dnd-name] > div,
+[data-list-id='guildsnav'] svg[width="48"] {
+    width: 40px;
+    height: 40px;
+}
+div[data-list-item-id="guildsnav___home"] {
+    background: var(--home-image) top center / 110% no-repeat;
+}
+#app-mount [data-list-item-id="guildsnav___home"] > div {
+    color: transparent;
+    background-color: transparent;
+}
+div[data-list-item-id="guildsnav___create-join-button"],
+div[data-list-item-id="guildsnav___guild-discover-button"] {
+    transition: 150ms ease;
+    opacity: 0.5;
+    background-color: rgba(255, 255, 255, 0.7) !important;
+    color: rgba(var(--dm-black), 0.4) !important;
+    border: 1.5px dashed rgba(var(--accent-alt), 0.4);
+    border-radius: 50px;
+}
+div[data-list-item-id="guildsnav___create-join-button"]:hover,
+div[data-list-item-id="guildsnav___guild-discover-button"]:hover {
+    opacity: 1;
+}
+div[class^="unreadMentionsIndicatorBottom-"] {
+    bottom: 70px;
+}
+
+
+/* ============================================================
+   SIDEBAR / CHANNEL LIST
+   ============================================================ */
+.platform-win [class^="sidebar-"] {
+    border-radius: 0;
+    background-color: transparent;
+}
+div[class^="sidebar-"] nav,
+#private-channels {
+    background: rgba(255, 255, 255, 0.65) !important;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    --background-tertiary: rgba(var(--dm-black), 0.04);
+}
+div[class^="sidebar-"] > nav > div[class^="searchBar"] {
+    height: 54px;
+}
+
+/* Members list */
+.container-2o3qEW {
+    --background-secondary:           rgba(255, 255, 255, 0.5);
+    --background-modifier-hover:      rgba(var(--accent), 0.1);
+    --background-modifier-active:     rgba(var(--accent), 0.1);
+    --background-modifier-selected:   rgba(var(--accent), 0.12);
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+div[data-list-id^="members-"][class*="scrollerBase-"] {
+    background: transparent;
+}
+div[data-list-id^="members-"] [class*="placeholder"] {
+    --background-primary: var(--text-normal);
+}
+div[class^='nowPlayingColumn'] {
+    --background-secondary: transparent;
+    --background-primary:   rgba(255, 255, 255, 0.45);
+    --background-modifier-hover: rgba(var(--accent), 0.1);
+}
+div[class^="members-"] div[class^="member-"] {
+    background-color: transparent;
+}
+#channels div[class^="unread-"] {
+    --interactive-active: rgba(var(--accent-alt), 1);
+}
+
+
+/* ============================================================
+   SIDEBAR HEADER
+   ============================================================ */
+nav[aria-label] > div > header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 54px;
+    --background-accent:         rgba(var(--accent), 1);
+    --background-modifier-hover: rgba(var(--dm-black), 0.05);
+}
+
+
+/* ============================================================
+   OUTER CONTAINERS / BODY
+   ============================================================ */
+body {
+    background: var(--background-image) center / cover no-repeat;
+}
+#app-mount {
+    background-color: transparent;
+    --background-tertiary: transparent;
+    --background-secondary: transparent;
+}
+#app-mount > div[class^="appDevToolsWrapper-"] {
+    --background-primary:   transparent;
+    --background-tertiary:  transparent;
+    --background-secondary: rgba(255, 255, 255, 0.6);
+    background-color:       rgba(255, 255, 255, 0.3);
+}
+div[class^="notAppAsidePanel-"] > div[class^="app-"] > div[class^="app-"],
+div[class^="app-"] > div[class^="bg-"] {
+    background-color: transparent;
+}
+div[class*="baseLayer-"] > div[class^="container-"] {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+nav + div [class^='sidebar-'],
+nav + div[class^='base-'] {
+    overflow: visible !important;
+    position: relative;
+    max-width: calc(100% - 72px);
+}
+nav + div[class^='base-'] > div[class^="notice"] {
+    border-radius: 0;
+}
+div[class^='base-'] > div,
+section[class*="themed-"] {
+    --background-secondary: rgba(255, 255, 255, 0.65);
+    --background-tertiary:  rgba(var(--dm-black), 0.04);
+    --background-primary:   rgba(255, 255, 255, 0.8);
+}
+#app-mount > div:not([class^="appDevToolsWrapper-"]),
+.autocomplete-1vrmpx {
+    --background-primary:         var(--cloud-white);
+    --background-secondary:       var(--cloud-white-dark);
+    --background-secondary-alt:   var(--cloud-white-darker);
+    --background-tertiary:        var(--cloud-white-darker);
+}
+
+
+/* ============================================================
+   TOP HEADER BAR
+   ============================================================ */
+section[class*="themed-"] {
+    height: 54px;
+    box-shadow: var(--elevation-low);
+    background-color: rgba(255, 255, 255, 0.82) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    --background-secondary: rgba(var(--accent), 0.12);
+}
+section > div > a[href*="support.discord.com"] {
+    display: none;
+}
+section[class*="themed-"]::before,
+section[class*="themed-"] ::after {
+    content: none;
+}
+section div[class^="toolbar"] > div[role] {
+    margin: 0 4px;
+    transition: 150ms ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    width: 28px;
+    height: 28px;
+}
+section div[class^="toolbar"] > div[role] svg {
+    width: 22px;
+}
+section div[class^="toolbar"] > div[role][class*="selected-"] {
+    background-color: rgba(var(--accent), 0.18);
+}
+
+
+/* ============================================================
+   PANELS (bottom user panel)
+   ============================================================ */
+div[class^='sidebar-'] > section {
+    --background-primary:       rgba(255, 255, 255, 0.55);
+    --background-secondary:     rgba(255, 255, 255, 0.65);
+    --background-secondary-alt: rgba(var(--cloud-white-darker), 0.98);
+    margin-bottom: 70px;
+}
+div[class^='sidebar-'] > section > div:last-child {
+    background-color: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-sizing: border-box;
+    height: 70px;
+    padding: 0 18px;
+    width: calc(100% + 72px);
+    position: absolute;
+    left: -72px;
+    bottom: 0;
+    border-top: 1px solid rgba(var(--dm-black), 0.06);
+}
+div[class^="sidebar-"] > section > div:last-child [class^="avatarWrapper-"] {
+    flex: 1;
+}
+
+
+/* ============================================================
+   CHAT / MESSAGE AREA
+   ============================================================ */
+div[class^='chat'] {
+    --background-floating: rgba(255, 255, 255, 0.8);
+    background: transparent;
+}
+div[class^="container-"][id^="chat-messages-"] {
+    --background-modifier-hover: rgba(var(--accent), 0.08);
+}
+div[class^='chat'] main form {
+    margin-top: 0;
+}
+div[class^='chat'] main form::before {
+    content: none;
+}
+div[data-list-id="chat-messages"] {
+    --background-primary:   transparent;
+    --background-secondary: rgba(var(--accent), 0.06);
+    --background-accent:    rgba(var(--accent), 0.1);
+}
+
+/* Text input box */
+div[class^="channelTextArea-"] {
+    --background-secondary: transparent;
+    box-shadow: inset 0 0 0 1.5px rgba(var(--accent-alt), 0.3);
+    transition: box-shadow 250ms ease;
+    margin-bottom: 24px;
+    margin-top: 12px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+div[class^="channelTextArea-"]:focus-within {
+    box-shadow: inset 0 0 0 1.5px rgba(var(--accent), 0.6);
+}
+
+/* Messages */
+div[id^="chat-messages-"] + div:not([id]):last-child {
+    height: 8px;
+}
+div[id^="chat-messages-"][class*="cozy-"] {
+    padding-left: calc(var(--avatar-size) * 2);
+}
+div[id^="chat-messages-"] {
+    margin-left: 8px;
+    margin-right: 8px;
+    border-radius: 6px;
+}
+div[id^="chat-messages-"] > div[class^="buttonContainer-"] {
+    transform: scale(.85);
+    top: 1px;
+}
+div[id^="chat-messages-"] {
+    --background-primary: rgba(255, 255, 255, 0.35);
+}
+div[id^="chat-messages-"] > div > [class^="avatar-"] {
+    margin-top: 6px;
+    width: var(--avatar-size);
+    height: var(--avatar-size);
+}
+div[id^="chat-messages-"][class*="cozy-"] div::before {
+    --gutter: 13px;
+}
+
+/* @mention chips */
+.mention {
+    transition: 150ms ease;
+    color: rgba(var(--accent-alt), 1) !important;
+    background-color: rgba(var(--accent), 0.2);
+    padding: 3px 5px;
+    border-radius: 5px;
+}
+.mention:hover {
+    background-color: rgba(var(--accent), 0.35) !important;
+}
+
+#app-mount .container-2cd8Mz {
+    background: var(--background-primary);
+}
+div[class*="barBase-"] {
+    padding-bottom: 0;
+    background-color: rgba(var(--accent-alt), 0.8);
+}
+
+
+/* ============================================================
+   CODE BLOCKS
+   ============================================================ */
+html pre {
+    border-radius: 6px;
+    background: transparent;
+    border-color: rgba(var(--dm-black), 0.08);
+}
+pre code.hljs {
+    border: none;
+    background-color: rgba(var(--dm-black), 0.05);
+    color: rgba(var(--dm-black), 0.75);
+    padding: 1em;
+    border-radius: 6px;
+}
+html code.inline {
+    background: rgba(var(--dm-black), 0.07);
+    color: rgba(var(--accent-alt), 1);
+    padding: 0.25em 0.55em;
+    border-radius: 4px;
+}
+
+
+/* ============================================================
+   SETTINGS
+   ============================================================ */
+div[aria-label*="_SETTINGS"],
+div[aria-label*="_DEBUG"] {
+    --background-primary:   transparent;
+    --background-secondary: rgba(255, 255, 255, 0.6);
+}
+div[class^="sidebarRegionScroller-"] > nav {
+    --background-secondary: transparent;
+}
+div[class^="contentRegion-"] {
+    --background-primary: rgba(255, 255, 255, 0.75);
+}
+div[class^="contentRegion-"] div[style^="overflow: hidden scroll"] {
+    background-color: transparent;
+    --background-primary:       rgba(255, 255, 255, 0.3);
+    --background-secondary:     rgba(255, 255, 255, 0.5);
+    --background-secondary-alt: rgba(255, 255, 255, 0.6);
+    --background-tertiary:      rgba(var(--dm-black), 0.04);
+}
+div[aria-label*="_SETTINGS"] aside > div {
+    --background-primary: transparent;
+}
+div[aria-label*="_SETTINGS"] aside > div::-webkit-scrollbar-track {
+    visibility: hidden !important;
+}
+
+
+/* ============================================================
+   TAB BAR
+   ============================================================ */
+div[class*="topPill"],
+nav > div[role="tablist"],
+.bd-tab-bar {
+    --background-accent:              rgba(var(--accent), 1);
+    --background-modifier-hover:      rgba(var(--accent), 0.1);
+    --background-modifier-active:     rgba(var(--accent), 0.15);
+    --background-modifier-selected:   rgba(var(--accent), 0.2);
+}
+
+
+/* ============================================================
+   TOOLTIPS
+   ============================================================ */
+div[class^="tooltip-"] {
+    --background-floating: rgba(var(--accent-alt), 0.92);
+    --text-normal: #fff;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 6px;
+}
+
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+button[class*="button-"][class*="color"],
+.bd-button {
+    --vaccentcolor: var(--accent-alt);
+}
+button {
+    --accentcolor: var(--accent-alt);
+}
+.bd-button {
+    --bd-blue: rgba(var(--accent-alt), 1);
+}
+
+
+/* ============================================================
+   CONTEXT MENU
+   ============================================================ */
+div[role="menuitem"] {
+    --vaccentcolor: var(--accent-alt);
+}
+div[role="menuitem"]:active {
+    --vaccentcolor: var(--accent);
+}
+
+
+/* ============================================================
+   MODALS
+   ============================================================ */
+div[class*="footerSeparator"] {
+    box-shadow: none !important;
+}
+
+
+/* ============================================================
+   SERVER DISCOVERY
+   ============================================================ */
+div[class^="sidebar"] + [class^="pageWrapper"] {
+    --background-secondary: rgba(255, 255, 255, 0.75);
+    background-color: var(--background-secondary);
+}
+
+
+/* ============================================================
+   FORUMS
+   ============================================================ */
+.container-3wLKDe {
+    background: var(--background-primary);
+}
+li[class^="card-"] > div[class^="container-"] {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+
+/* ============================================================
+   LOGIN PAGE
+   ============================================================ */
+div[class^="splashBackground"] canvas,
+div[class^="splashBackground"] img {
+    display: none;
+}
+
+
+/* ============================================================
+   DEPRECATED / HARDCODED COMPONENT OVERRIDES
+   ============================================================ */
+#app-mount .footer-2gL1pp,
+#app-mount .footer-3mqk7D {
+    background-color: var(--cloud-white-dark);
+    box-shadow: none;
+}
+
+#app-mount .root-1gCeng,
+#app-mount .addGamePopout-2RY8Ju,
+#app-mount .keyboardShortcutsModal-3piNz7,
+#app-mount .emojiAliasInput-1y-NBz .emojiInput-1aLNse,
+.perksModal-fSYqOq .perk-2WeBWW,
+#app-mount .uploadModal-2ifh8j,
+#app-mount .contentWrapper-3WC1ID,
+#app-mount .contentWarningPopout-n5JsIs {
+    background-color: var(--cloud-white);
+}
+
+#app-mount .codeRedemptionRedirect-1wVR4b,
+#app-mount .userSettingsVoice-iwdUCU .previewOverlay-2O7_KC,
+#app-mount .inset-3sAvek {
+    background-color: var(--cloud-white-darker);
+    border: none;
+}
+
+#app-mount .paymentPane-3bwJ6A,
+#app-mount .tierBody-x9kBBp,
+#app-mount .tierBody-16Chc9,
+#app-mount .barBackground-2EEiLw,
+#app-mount .body-3iLsc4,
+#app-mount .footer-1fjuF6,
+#app-mount .container-3ayLPN,
+#app-mount .colorPickerCustom-2CWBn2,
+#app-mount .tierMarkerBackground-3q29am,
+.css-3vaxre-menu,
+.css-dwar6a-menu,
+#app-mount .autocomplete-1vrmpx,
+.categoryHeader-O1zU94,
+#app-mount .popoutList-T9CKZQ,
+#app-mount .quickSelectPopout-X1hvgV,
+.colorable-1bkp8v.primaryDark-3mSFDl,
+.tile-2naSqK,
+.videoWrapper-2v09vt,
+#app-mount .spoilerText-3p6IlD.hidden-HHr2R9 {
+    background-color: var(--cloud-white);
+}
+
+#app-mount .expandedInfo-3kfShd,
+#app-mount .tierHeaderLocked-1a2opw,
+#app-mount .tierHeaderLocked-1s2JJz,
+#app-mount .headerNormal-T_seeN,
+#app-mount .focused-2bY0OD,
+.colorable-1bkp8v.primaryDark-3mSFDl:hover {
+    background-color: var(--cloud-white-dark);
+}
+
+#app-mount .payment-xT17Mq {
+    background-color: transparent;
+    border-bottom-color: rgba(var(--dm-black), 0.06);
+}
+#app-mount .bottomDivider-1K9Gao,
+#app-mount .focused-2bY0OD {
+    border-bottom-color: var(--cloud-white-dark);
+}
+
+#app-mount div[data-list-id="billing-history"],
+#app-mount div[data-list-id^="private-channels-"],
+#app-mount .media-engine-video,
+.react-datepicker,
+.react-datepicker__header,
+.react-datepicker__day--outside-month,
+.react-datepicker__day--disabled,
+div[data-list-id^="members-"],
+div[data-list-id^="members-"] > div {
+    background-color: transparent !important;
+}
+
+.react-datepicker__day--disabled {
+    opacity: .5;
+}
+
+#app-mount .react-datepicker__day {
+    border-top-color: var(--cloud-white-dark);
+    border-left-color: var(--cloud-white-dark);
+}
+
+#app-mount .searchAnswer-3Dz2-q,
+#app-mount .searchFilter-2ESiM3,
+#app-mount .option-1B5ZV8,
+#app-mount .pill-2pQByF {
+    background-color: rgba(var(--accent-alt), 0.85);
+    color: #fff;
+}
+
+#app-mount .keybindShortcut-1BD6Z1 span {
+    background: var(--cloud-white-dark);
+    box-shadow: inset 0 -3px 0 rgba(var(--dm-black), 0.08);
+}
+
+#app-mount .perksModal-fSYqOq {
+    background: rgba(255, 255, 255, 0.85);
+}
+
+#app-mount .card-FDVird:before {
+    background: var(--background-modifier-hover);
+    border: none;
+}
+
+#app-mount .option-96V44q.selected-rZcOL-,
+#app-mount .selected-1Tbx07,
+#app-mount .quickSelectPopoutOption-opKBx9:hover,
+#app-mount .outer-1AjyKL.active-1xchHY,
+#app-mount .outer-1AjyKL.interactive-3B9GmY:hover {
+    background-color: rgba(var(--accent), 0.12);
+}
+
+.option-96V44q:after {
+    content: none;
+}
+
+#app-mount .background-3xPPFc,
+#app-mount .tierInProgress-3mBoXq {
+    color: var(--cloud-white);
+}
